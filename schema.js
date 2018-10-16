@@ -1,16 +1,16 @@
 const { gql } = require("apollo-server");
 
 module.exports = gql`
-  type Test {
+  type Unit {
     title: String
     data: String
   }
   type Query {
-    tests: [Test]
+    units: [Unit]
   }
 
   type Subscription {
-    testAdded: Test
+    unitAdded: Unit
   }
   schema {
     query: Query

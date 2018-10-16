@@ -13,11 +13,11 @@ const app = express();
 const httpServer = createServer(app);
 const resolvers = {
   Query: {
-    tests: () => DUMMY_DATA
+    units: () => DUMMY_DATA
   },
   Subscription: {
-    testAdded: {
-      subscribe: () => pubsub.asyncIterator("testAdded")
+    unitAdded: {
+      subscribe: () => pubsub.asyncIterator("unitAdded")
     }
   }
 };
@@ -39,7 +39,7 @@ httpServer.listen(PORT, () => {
 
 setInterval(() => {
   const payload = {
-    testAdded: { title: `TITLE_${Date.now()}`, data: `DATA_${Date.now()}` }
+    unitAdded: { title: `TITLE_${Date.now()}`, data: `DATA_${Date.now()}` }
   };
-  pubsub.publish("testAdded", payload);
+  pubsub.publish("unitAdded", payload);
 }, 100);
