@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "apollo-server": "2.1.0",
+    "apollo-server-express": "2.1.0",
+    "body-parser": "1.18.3",
+    "cors": "2.8.4",
+    "express": "4.16.4",
+    "graphql": "14.0.2",
+    "subscriptions-transport-ws": "0.9.15"
+  },
+  "name": "crypto-checker-back",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT"
+}
