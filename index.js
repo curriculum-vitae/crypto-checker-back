@@ -61,6 +61,11 @@ httpServer.listen(PORT, () => {
 */
 
 const publishTestData = ({ url }) => {
+  /*
+  `url` contains all input from a form
+    Example value:
+      http://123.2.2.2/51582/EBS#Elbrus    
+  */
   let countOfUnitsPassed = 0;
   const countOfUnitsAll = units.length;
   const SUBSCRIPTION_NAME = "unitAdded";
