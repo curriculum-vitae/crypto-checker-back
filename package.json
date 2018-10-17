@@ -6,7 +6,11 @@
     "cors": "2.8.4",
     "express": "4.16.4",
     "graphql": "14.0.2",
+    "graphql-subscriptions": "1.0.0",
     "subscriptions-transport-ws": "0.9.15"
+  },
+  "scripts": {
+    "start": "node index"
   },
   "name": "crypto-checker-back",
   "version": "1.0.0",

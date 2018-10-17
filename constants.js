@@ -1,7 +1,8 @@
 const DUMMY_DATA = [
   {
-    title: "Title",
-    data: "Data"
+    id: 666,
+    title: "Dummy title",
+    status: "pending"
   }
 ];
 

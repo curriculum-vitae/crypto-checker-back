@@ -1,12 +1,18 @@
 const { ApolloServer, PubSub } = require("apollo-server-express");
-const { execute, subscribe, buildSchema } = require("graphql");
-const { SubscriptionServer } = require("subscriptions-transport-ws");
+
+const { withFilter } = require("graphql-subscriptions");
 
 const express = require("express");
 const schema = require("./schema");
 const { createServer } = require("http");
 
 const { DUMMY_DATA, PORT } = require("./constants");
+
+const DUMMY_FORM_DATA = {
+  host: "127.0.0.1",
+  port: "4001",
+  coin: "BTC"
+};
 
 const pubsub = new PubSub();
 const app = express();
@@ -15,13 +21,30 @@ const resolvers = {
   Query: {
     units: () => DUMMY_DATA
   },
+  Mutation: {
+    urlAdd: (_, params, context) => {
+      publishTestData({ url: params.url });
+      return new Promise(resolve => {
+        resolve({
+          id: Date.now(),
+          status: "URL CREATED"
+        });
+      });
+    }
+  },
   Subscription: {
     unitAdded: {
-      subscribe: () => pubsub.asyncIterator("unitAdded")
+      subscribe: withFilter(
+        () => pubsub.asyncIterator("unitAdded"),
+        (payload, variables) => {
+          return payload.unitAdded.url === variables.url;
+        }
+      )
     }
   }
 };
 const server = new ApolloServer({ typeDefs: schema, resolvers });
+const units = require("./units");
 
 server.applyMiddleware({ app, path: "/graphql" });
 server.installSubscriptionHandlers(httpServer);
@@ -37,9 +60,43 @@ httpServer.listen(PORT, () => {
   );
 });
 
-setInterval(() => {
-  const payload = {
-    unitAdded: { title: `TITLE_${Date.now()}`, data: `DATA_${Date.now()}` }
-  };
-  pubsub.publish("unitAdded", payload);
-}, 100);
+/*
+  TODO
+  [] Optimize memory usage
+*/
+
+const publishTestData = ({ url }) => {
+  let countOfUnits = 0;
+  const SUBSCRIPTION_NAME = "unitAdded";
+
+  units.forEach(async unit => {
+    const { title, run } = unit;
+    let payload = {};
+
+    try {
+      const responseFromUnit = await run(DUMMY_FORM_DATA);
+      countOfUnits++;
+      payload[SUBSCRIPTION_NAME] = {
+        id: Date.now(),
+        url,
+        status: countOfUnits === units.length ? "resolved" : "pending",
+        type: responseFromUnit.error ? "error" : "info",
+        title,
+        description: responseFromUnit.result,
+        details: responseFromUnit.details
+      };
+    } catch (e) {
+      payload[SUBSCRIPTION_NAME] = {
+        id: Date.now(),
+        url,
+
+        status: countOfUnits === units.length ? "resolved" : "pending",
+        type: "error",
+        title,
+        description: e.message
+      };
+    }
+
+    pubsub.publish("unitAdded", payload);
+  });
+};
