@@ -26,15 +26,3 @@ module.exports = gql`
     mutation: Mutation
   }
 `;
-
-/*
-STATUS
-pending
-resolved
-rejected
-
-type:
-
-info
-error
-*/
