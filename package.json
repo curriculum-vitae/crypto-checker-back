@@ -10,7 +10,8 @@
     "subscriptions-transport-ws": "0.9.15"
   },
   "scripts": {
-    "start": "node index"
+    "start": "node index",
+    "deploy": "now"
   },
   "name": "crypto-checker-back",
   "version": "1.0.0",
