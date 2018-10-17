@@ -1,10 +1,4 @@
-const DUMMY_DATA = [
-  {
-    id: 666,
-    title: "Dummy title",
-    status: "pending"
-  }
-];
+const DUMMY_DATA = [];
 
 const PORT = 4000;
 

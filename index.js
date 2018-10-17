@@ -7,16 +7,12 @@ const schema = require("./schema");
 const { createServer } = require("http");
 
 const { DUMMY_DATA, PORT } = require("./constants");
-
-const DUMMY_FORM_DATA = {
-  host: "127.0.0.1",
-  port: "4001",
-  coin: "BTC"
-};
+const units = require("./units");
 
 const pubsub = new PubSub();
 const app = express();
 const httpServer = createServer(app);
+
 const resolvers = {
   Query: {
     units: () => DUMMY_DATA
@@ -44,7 +40,6 @@ const resolvers = {
   }
 };
 const server = new ApolloServer({ typeDefs: schema, resolvers });
-const units = require("./units");
 
 server.applyMiddleware({ app, path: "/graphql" });
 server.installSubscriptionHandlers(httpServer);
@@ -75,7 +70,7 @@ const publishTestData = ({ url }) => {
     let payload = {};
 
     try {
-      const responseFromUnit = await run(DUMMY_FORM_DATA);
+      const responseFromUnit = await run({ url });
       countOfUnitsPassed++;
       payload[SUBSCRIPTION_NAME] = {
         id: Date.now(),
