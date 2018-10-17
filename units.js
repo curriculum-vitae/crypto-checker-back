@@ -1,7 +1,7 @@
 const units = [];
 
-const sampleAsyncAction = (wait = 10) => {
-  return new Promise((resolve, reject) => {
+const sampleActionToTestInput = (input, wait = 10) => {
+  return new Promise(resolve => {
     setTimeout(
       () =>
         resolve({
@@ -14,9 +14,9 @@ const sampleAsyncAction = (wait = 10) => {
 
 units.push({
   title: "Existance in the universe",
-  run: async form => {
+  run: async input => {
     try {
-      const result = await sampleAsyncAction(100);
+      const result = await sampleActionToTestInput(input, 100);
       return {
         error: false,
         result: result.data
@@ -32,9 +32,9 @@ units.push({
 
 units.push({
   title: "Shitting unicorn",
-  run: async form => {
+  run: async input => {
     try {
-      const result = await sampleAsyncAction(500);
+      const result = await sampleActionToTestInput(input, 500);
       return {
         error: false,
         result: result.data
@@ -50,9 +50,9 @@ units.push({
 
 units.push({
   title: "Unit with details",
-  run: async form => {
+  run: async input => {
     try {
-      const result = await sampleAsyncAction(1000);
+      const result = await sampleActionToTestInput(input, 1000);
       return {
         error: false,
         details: `<p>Client version: Dash 1.1.1</p> <p>Protocol: 70001</p><p>Last block: 100500</p>`,
@@ -69,9 +69,9 @@ units.push({
 
 units.push({
   title: "And the answer to the universe is...",
-  run: async form => {
+  run: async input => {
     try {
-      const result = await sampleAsyncAction(1000);
+      const result = await sampleActionToTestInput(input, 1000);
       return {
         error: false,
         result: result.data
@@ -87,9 +87,9 @@ units.push({
 
 units.push({
   title: "... wait for it...",
-  run: async form => {
+  run: async input => {
     try {
-      const result = await sampleAsyncAction(2000);
+      const result = await sampleActionToTestInput(input, 2000);
       return {
         error: false,
         result: result.data
@@ -105,9 +105,9 @@ units.push({
 
 units.push({
   title: "... faking error... creating suspensious ...",
-  run: async form => {
+  run: async input => {
     try {
-      const result = await sampleAsyncAction(1000);
+      const result = await sampleActionToTestInput(input, 1000);
       return {
         error: true,
         result: result.data
@@ -123,9 +123,9 @@ units.push({
 
 units.push({
   title: "42",
-  run: async form => {
+  run: async input => {
     try {
-      const result = await sampleAsyncAction(3000);
+      const result = await sampleActionToTestInput(input, 3000);
       return {
         error: false,
         result: result.data

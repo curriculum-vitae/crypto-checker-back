@@ -66,7 +66,8 @@ httpServer.listen(PORT, () => {
 */
 
 const publishTestData = ({ url }) => {
-  let countOfUnits = 0;
+  let countOfUnitsPassed = 0;
+  const countOfUnitsAll = units.length;
   const SUBSCRIPTION_NAME = "unitAdded";
 
   units.forEach(async unit => {
@@ -75,28 +76,28 @@ const publishTestData = ({ url }) => {
 
     try {
       const responseFromUnit = await run(DUMMY_FORM_DATA);
-      countOfUnits++;
+      countOfUnitsPassed++;
       payload[SUBSCRIPTION_NAME] = {
         id: Date.now(),
         url,
-        status: countOfUnits === units.length ? "resolved" : "pending",
+        status: countOfUnitsPassed === countOfUnitsAll ? "resolved" : "pending",
         type: responseFromUnit.error ? "error" : "info",
         title,
         description: responseFromUnit.result,
         details: responseFromUnit.details
       };
     } catch (e) {
+      countOfUnitsPassed++;
       payload[SUBSCRIPTION_NAME] = {
         id: Date.now(),
         url,
-
-        status: countOfUnits === units.length ? "resolved" : "pending",
+        status: countOfUnitsPassed === countOfUnitsAll ? "resolved" : "pending",
         type: "error",
         title,
-        description: e.message
+        description: "ERROR"
       };
     }
 
-    pubsub.publish("unitAdded", payload);
+    pubsub.publish(SUBSCRIPTION_NAME, payload);
   });
 };
