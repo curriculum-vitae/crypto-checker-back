@@ -19,5 +19,6 @@ decription
 String
 
 details
+String
 HTML data to display to the user.
 ```
