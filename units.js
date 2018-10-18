@@ -5,7 +5,13 @@ const sampleActionToTestInput = (input, wait = 10) => {
     setTimeout(
       () =>
         resolve({
-          data: `DataFromSingleUnitAsString at ${Date.now()}`
+          /*
+            This data goes to description field
+          */
+          data:
+            Math.random() > 0.5
+              ? `Description generated at ${Date.now()}`
+              : null
         }),
       wait
     );
