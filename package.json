@@ -11,7 +11,10 @@
   },
   "scripts": {
     "start": "node index",
-    "deploy": "now"
+    "deploy": "now --public"
+  },
+  "now": {
+    "alias": "crypto-checker.now.sh"
   },
   "name": "crypto-checker-back",
   "version": "1.0.0",
