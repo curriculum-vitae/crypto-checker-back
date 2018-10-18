@@ -60,14 +60,8 @@ httpServer.listen(PORT, () => {
   [] Optimize memory usage
 */
 
-const generateRandomType =
-  Math.random() > 0.75
-    ? "info"
-    : Math.random() > 0.5
-      ? "warning"
-      : Math.random() > 0.25
-        ? "okay"
-        : "okay";
+const generateRandomType = () =>
+  Math.random() > 0.66 ? "info" : Math.random() > 0.33 ? "warning" : "okay";
 
 const publishTestData = ({ url }) => {
   /*
