@@ -60,6 +60,15 @@ httpServer.listen(PORT, () => {
   [] Optimize memory usage
 */
 
+const generateRandomType =
+  Math.random() > 0.75
+    ? "info"
+    : Math.random() > 0.5
+      ? "warning"
+      : Math.random() > 0.25
+        ? "okay"
+        : "okay";
+
 const publishTestData = ({ url }) => {
   /*
   `url` contains all input from a form
@@ -81,7 +90,7 @@ const publishTestData = ({ url }) => {
         id: Date.now(),
         url,
         status: countOfUnitsPassed === countOfUnitsAll ? "resolved" : "pending",
-        type: responseFromUnit.error ? "error" : "info",
+        type: responseFromUnit.error ? "error" : generateRandomType(),
         title,
         description: responseFromUnit.result,
         details: responseFromUnit.details
