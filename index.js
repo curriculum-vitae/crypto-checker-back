@@ -39,7 +39,10 @@ const resolvers = {
     }
   }
 };
-const server = new ApolloServer({ typeDefs: schema, resolvers });
+const server = new ApolloServer({
+  typeDefs: schema,
+  resolvers
+});
 
 server.applyMiddleware({ app, path: "/graphql" });
 server.installSubscriptionHandlers(httpServer);
@@ -100,7 +103,6 @@ const publishTestData = ({ url }) => {
         description: "ERROR"
       };
     }
-
     pubsub.publish(SUBSCRIPTION_NAME, payload);
   });
 };
