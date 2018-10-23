@@ -17,25 +17,20 @@ const resolvers = {
   Query: {
     units: () => DUMMY_DATA
   },
-  Mutation: {
-    urlAdd: (_, params, context) => {
-      publishTestData({ url: params.url });
-      return new Promise(resolve => {
-        resolve({
-          id: Date.now(),
-          status: "URL CREATED"
-        });
-      });
-    }
-  },
   Subscription: {
     unitAdded: {
-      subscribe: withFilter(
-        () => pubsub.asyncIterator("unitAdded"),
-        (payload, variables) => {
-          return payload.unitAdded.url === variables.url;
-        }
-      )
+      subscribe: (_, variables, connection) => {
+        setTimeout(() => {
+          publishTestData({ url: variables.url });
+        }, 1000);
+
+        return withFilter(
+          () => pubsub.asyncIterator("unitAdded"),
+          (payload, variables) => {
+            return payload.unitAdded.url === variables.url;
+          }
+        )(_, variables, connection);
+      }
     }
   }
 };

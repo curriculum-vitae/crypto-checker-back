@@ -17,12 +17,9 @@ module.exports = gql`
   type Subscription {
     unitAdded(url: String!): Unit
   }
-  type Mutation {
-    urlAdd(url: String!): Unit
-  }
+
   schema {
     query: Query
     subscription: Subscription
-    mutation: Mutation
   }
 `;
